@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 # blocks until kafka is reachable
 set -e
-kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --list
+NEXT_WAIT_TIME=0
+until [ $NEXT_WAIT_TIME -eq 5 ] || kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --list; do
+    sleep $(( NEXT_WAIT_TIME++ ))
+done
+[ $NEXT_WAIT_TIME -lt 5 ]
 
 echo -e 'Creating kafka topics'
 kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --create --if-not-exists --topic meta_events --replication-factor 1 --partitions 1
