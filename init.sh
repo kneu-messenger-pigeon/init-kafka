@@ -9,7 +9,7 @@ done
 
 echo 'Creating kafka topics'
 while read topicName; do
-  echo "Create topic: ${topicName}"
+  echo "Create topic ${topicName}."
   kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --create --if-not-exists --topic "${topicName}"
 done <topics.list
 
