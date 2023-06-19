@@ -14,7 +14,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-w -s" -tags=nomsgpack -o /app .
 RUN /app > /topics.list
 
-FROM docker.io/bitnami/kafka:3.3
+FROM docker.io/bitnami/kafka:3.4-debian-11
 
 ENV KAFKA_HOST kafka:9092
 COPY --from=builder /topics.list topics.list
