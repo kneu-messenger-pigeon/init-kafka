@@ -9,8 +9,17 @@ done
 
 echo 'Creating kafka topics'
 while read topicName; do
-  echo "Create topic ${topicName}."
-  kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --create --if-not-exists --topic "${topicName}"
+  case $topicName in
+  raw-scores)  PARTITIONS=2
+  ;;
+  scores-changes-feed)  PARTITIONS=6
+  ;;
+  *)  PARTITIONS=1
+  ;;
+  esac
+
+  echo "Create topic ${topicName} with ${PARTITIONS} partitions."
+  kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --create --if-not-exists --topic "${topicName}" --partitions ${PARTITIONS}
 done <topics.list
 
 echo 'Successfully created the following topics:'
