@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 # blocks until kafka is reachable
 set -e
+
+NEXT_WAIT_TIME=0
+until [ $NEXT_WAIT_TIME -eq 5 ] || nc -z ${KAFKA_HOST//:/ }; do
+  sleep $(( NEXT_WAIT_TIME++ ))
+done
+
 NEXT_WAIT_TIME=0
 until [ $NEXT_WAIT_TIME -eq 5 ] || kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --list; do
     sleep $(( NEXT_WAIT_TIME++ ))
