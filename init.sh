@@ -3,7 +3,7 @@
 
 # blocks until kafka is reachable
 set -e
-
+sleep 2
 TCP_KAFKA_HOST=$(echo ${KAFKA_HOST} |  sed -e "s/:/\//")
 NEXT_WAIT_TIME=0
 until [ $NEXT_WAIT_TIME -eq 5 ] || timeout 1 bash -c "< /dev/tcp/${TCP_KAFKA_HOST}"; do
