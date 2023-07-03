@@ -1,15 +1,21 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# docker run -it -v `pwd`:/workspace -e KAFKA_HOST=127.0.0.1:9092 docker.io/bitnami/kafka:3.4-debian-11 /workspace/init.sh
+
 # blocks until kafka is reachable
 set -e
 
+TCP_KAFKA_HOST=$(echo ${KAFKA_HOST} |  sed -e "s/:/\//")
 NEXT_WAIT_TIME=0
-until [ $NEXT_WAIT_TIME -eq 5 ] || nc -z ${KAFKA_HOST//:/ }; do
-  sleep $(( NEXT_WAIT_TIME++ ))
+until [ $NEXT_WAIT_TIME -eq 5 ] || timeout 1 bash -c "< /dev/tcp/${TCP_KAFKA_HOST}"; do
+  sleep $NEXT_WAIT_TIME
+  NEXT_WAIT_TIME=$((NEXT_WAIT_TIME+1))
 done
+[ $NEXT_WAIT_TIME -lt 5 ]
 
 NEXT_WAIT_TIME=0
 until [ $NEXT_WAIT_TIME -eq 5 ] || kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --list; do
-    sleep $(( NEXT_WAIT_TIME++ ))
+  sleep $NEXT_WAIT_TIME
+  NEXT_WAIT_TIME=$((NEXT_WAIT_TIME+1))
 done
 [ $NEXT_WAIT_TIME -lt 5 ]
 
