@@ -47,9 +47,9 @@ date
 
 echo "Create healthcheck script: ${CREATE_HEALTHCHECK_SCRIPT:=healthcheck.sh}"
 mkdir -p $(dirname "$CREATE_HEALTHCHECK_SCRIPT")
-touch "${CREATE_HEALTHCHECK_SCRIPT}"
-chmod +x "${CREATE_HEALTHCHECK_SCRIPT}"
 FIRST_TOPIC=$(head -n 1 topics.list  | tr -d '\n')
-echo "kafka-topics.sh --bootstrap-server localhost:9092 --topic \"$FIRST_TOPIC\" --describe" > $CREATE_HEALTHCHECK_SCRIPT
+echo "#!/usr/bin/env sh" > $CREATE_HEALTHCHECK_SCRIPT
+echo "kafka-topics.sh --bootstrap-server localhost:9092 --topic \"$FIRST_TOPIC\" --describe" >> $CREATE_HEALTHCHECK_SCRIPT
+chmod +x "${CREATE_HEALTHCHECK_SCRIPT}"
 
 sleep "${FINISH_TIMEOUT:-0}"
