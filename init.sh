@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # docker run -it -v `pwd`:/workspace -e KAFKA_HOST=127.0.0.1:9092 docker.io/bitnami/kafka:3.4-debian-11 /workspace/init.sh
 
+# handle signals
+trap "echo Exiting... INT;  exit $?" INT
+trap "echo Exiting... TERM; exit $?" TERM
+trap "echo Exiting... EXIT; exit $?" EXIT
+
 # blocks until kafka is reachable
 set -e
 sleep 2
@@ -20,6 +25,7 @@ done
 [ $NEXT_WAIT_TIME -lt 5 ]
 
 echo 'Creating kafka topics'
+date
 while read topicName; do
   case $topicName in
   raw-scores)  PARTITIONS=2
@@ -34,5 +40,16 @@ while read topicName; do
   kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --create --if-not-exists --topic "${topicName}" --partitions ${PARTITIONS}
 done <topics.list
 
+date
 echo 'Successfully created the following topics:'
 kafka-topics.sh --bootstrap-server "${KAFKA_HOST}" --list
+date
+
+echo "Create healthcheck script: ${CREATE_HEALTHCHECK_SCRIPT:=healthcheck.sh}"
+mkdir -p $(dirname "$CREATE_HEALTHCHECK_SCRIPT")
+touch "${CREATE_HEALTHCHECK_SCRIPT}"
+chmod +x "${CREATE_HEALTHCHECK_SCRIPT}"
+FIRST_TOPIC=$(head -n 1 topics.list  | tr -d '\n')
+echo "kafka-topics.sh --bootstrap-server localhost:9092 --topic \"$FIRST_TOPIC\" --describe" > $CREATE_HEALTHCHECK_SCRIPT
+
+sleep "${FINISH_TIMEOUT:-0}"

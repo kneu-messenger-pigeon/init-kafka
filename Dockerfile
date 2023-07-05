@@ -18,6 +18,7 @@ FROM --platform=${BUILDPLATFORM:-linux/amd64} docker.io/bitnami/kafka:3.4-debian
 
 ENV KAFKA_HOST kafka:9092
 ADD init.sh /init.sh
+RUN bash -n init.sh
 COPY --from=builder /topics.list topics.list
 
 ENTRYPOINT /init.sh
