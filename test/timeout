@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# mock timeout
+echo " " "$@" " " >> "$TIMOUT_LOG"
+
+# Assuming the file path is stored in the FILE variable
+if [ "$(wc -l < "$TIMOUT_LOG")" -eq 1 ]; then
+  # it's first run - exit with error to initiate retry call of this command during healthcheck
+  exit 1
+fi
+
+$REAL_TIMEOUT -- "$@"

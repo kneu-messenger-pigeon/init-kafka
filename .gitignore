@@ -1,2 +1,4 @@
 topics.list
 healthcheck.sh
+test/*.log
+coverage/*
