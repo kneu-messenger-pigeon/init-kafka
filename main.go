@@ -1,12 +1,11 @@
+//go:build !test
+
 package main
 
 import (
-	"fmt"
-	"github.com/kneu-messenger-pigeon/events"
+	"os"
 )
 
 func main() {
-	for _, topicName := range events.GetTopics() {
-		fmt.Println(topicName)
-	}
+	os.Exit(handleExitError(os.Stderr, initKafka()))
 }

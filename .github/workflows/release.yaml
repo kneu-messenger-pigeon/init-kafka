@@ -6,35 +6,10 @@ on:
     branches: ['main']
 
 jobs:
-
-  test:
-    if: ${{ !inputs.skip_test }}
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-          bundler-cache: true
-
-      - name: Install Ruby dependencies
-        run: bundle install
-
-      - name: Test
-        run: bundle exec bashcov test/test-init.sh
-
-      - uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-
   release:
-    needs: test
     permissions:
       contents: read
       packages: write
     uses: kneu-messenger-pigeon/github-workflows/.github/workflows/release.yaml@main
     secrets: inherit
-    with:
-      skip_test: true
 
