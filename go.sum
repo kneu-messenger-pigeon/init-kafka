@@ -9,6 +9,8 @@ github.com/kneu-messenger-pigeon/events v0.1.34 h1:+WDvzCZR47mai1v5fApQkZZIdTWfU
 github.com/kneu-messenger-pigeon/events v0.1.34/go.mod h1:yPgqpO/+XVOZmTdH8BB4wbE+2/keLNhjorMVzJwHQL8=
 github.com/kneu-messenger-pigeon/events v0.1.38 h1:O1QHfwWxS3fBToYUyrmIM7Ia1G9MwxlzHG30HF6r1C0=
 github.com/kneu-messenger-pigeon/events v0.1.38/go.mod h1:yPgqpO/+XVOZmTdH8BB4wbE+2/keLNhjorMVzJwHQL8=
+github.com/kneu-messenger-pigeon/events v0.1.40 h1:Ov5Ny7h5KGmxMFT5k6UPikun+LeQEymdIe3aATuzcRo=
+github.com/kneu-messenger-pigeon/events v0.1.40/go.mod h1:Q6X8B9gKZpKbby9gisLumvGT1xCWBM7bAFnviYi6MBQ=
 github.com/pierrec/lz4/v4 v4.1.15 h1:MO0/ucJhngq7299dKLwIMtgTfbkoSPF6AoMYDd8Q4q0=
 github.com/pierrec/lz4/v4 v4.1.15/go.mod h1:gZWDp/Ze/IJXGXf23ltt2EXimqmTUXEy0GFuRQyBid4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
