@@ -21,6 +21,7 @@ kafka-topics.sh --bootstrap-server localhost:9092 --topic "meta-events" --descri
 		healthCheckFilename := "tests/healthcheck.sh"
 		port := "17092"
 
+		currentDir, _ := os.Getwd()
 		cmd := exec.Command(
 			"docker", "run", "--rm", "-d",
 			"--name", containerName,
@@ -35,7 +36,7 @@ kafka-topics.sh --bootstrap-server localhost:9092 --topic "meta-events" --descri
 			"-e", "KAFKA_BROKER_ID=1",
 			"-e", "KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093",
 			"-e", "ALLOW_PLAINTEXT_LISTENER=yes",
-			"--mount", "type=bind,source=./tests/,target=/tests/",
+			"--mount", "type=bind,source="+currentDir+"/tests/,target=/tests/",
 			"bitnami/kafka:3.4-debian-11",
 		)
 		cmd.WaitDelay = time.Second * 3
