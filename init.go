@@ -16,6 +16,7 @@ var connectRetryInterval = time.Second * 2
 
 func initKafka() error {
 	startTimeout, _ := time.ParseDuration(os.Getenv("START_TIMEOUT"))
+	fmt.Println("Start timeout: " + startTimeout.String())
 	time.Sleep(startTimeout)
 
 	kafkaHost := os.Getenv("KAFKA_HOST")
@@ -66,6 +67,7 @@ func initKafka() error {
 	}
 
 	finishTimeout, _ := time.ParseDuration(os.Getenv("FINISH_TIMEOUT"))
+	fmt.Println("Finish timeout: " + finishTimeout.String())
 	time.Sleep(finishTimeout)
 
 	return err
